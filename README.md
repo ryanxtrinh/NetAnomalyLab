@@ -35,7 +35,7 @@ java -jar netanomaly.jar <zeek_log_dir> [--baseline <zeek_log_dir>] [--out out] 
 
 ## Getting data
 
-### Option A: public datasets (start here)
+### Option A: public datasets
 These include real attack traffic with labels, so you can measure how well each detector performs:
 - **CIC-IDS2017** (Canadian Institute for Cybersecurity): one PCAP per day, each with known attacks
 - **UNSW-NB15**
@@ -49,7 +49,7 @@ cd .. && java -jar netanomaly.jar logs
 ```
 
 ### Option B: your own lab
-1. Use an old laptop with Ubuntu as the **sensor**. `sudo apt install zeek` (or use the Zeek OBS repo).
+1. Use a spare Ubuntu machine or VM as the **sensor**. `sudo apt install zeek` (or use the Zeek OBS repo).
 2. Capture normal traffic for a few days, then convert it. That's your **baseline**:
    `sudo tcpdump -i eth0 -w baseline.pcap`
 3. Capture again later and compare: `java -jar netanomaly.jar logs/ --baseline baseline_logs/`
@@ -76,7 +76,7 @@ src/main/java/netanomaly/
   util/Net.java          IP classification, entropy, stats helpers
 ```
 
-## Key concepts (be ready to explain these in interviews)
+## Key concepts
 
 - **Zeek `conn_state`**: `SF` = normal completed connection, `S0` = SYN sent with no reply, `REJ` = rejected (RST). Scans produce lots of `S0` and `REJ`.
 - **Coefficient of variation (CV)** = std / mean of the gaps between connections. Humans are irregular (high CV), while a `sleep(60)` loop is regular (CV near 0). The beacon detector also uses median absolute deviation so one missed check-in doesn't hide a beacon.
