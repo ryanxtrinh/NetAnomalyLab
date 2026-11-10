@@ -1,6 +1,6 @@
 # netanomaly: Network Traffic Anomaly Detection in Java
 
-[![CI](https://github.com/ryanxtrinh/net-anomaly-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/ryanxtrinh/net-anomaly-lab/actions/workflows/ci.yml)
+[![CI](https://github.com/ryanxtrinh/NetAnomalyLab/actions/workflows/ci.yml/badge.svg)](https://github.com/ryanxtrinh/NetAnomalyLab/actions/workflows/ci.yml)
 
 A command-line tool that reads **Zeek** network logs and flags suspicious behavior using five rule-based detectors and an **Isolation Forest** machine-learning model I implemented from scratch. Results are saved as a CSV and as a self-contained HTML report.
 
