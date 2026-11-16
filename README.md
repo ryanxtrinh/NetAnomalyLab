@@ -1,5 +1,7 @@
 # netanomaly: Network Traffic Anomaly Detection in Java
 
+[![Build](https://github.com/ryanxtrinh/NetAnomalyLab/actions/workflows/build.yml/badge.svg)](https://github.com/ryanxtrinh/NetAnomalyLab/actions/workflows/build.yml)
+
 A command-line tool that reads **Zeek** network logs and flags suspicious behavior using five rule-based detectors and an **Isolation Forest** machine-learning model I implemented from scratch. Results are saved as a CSV and as a self-contained HTML report.
 
 Pure Java 17+. No external libraries.
