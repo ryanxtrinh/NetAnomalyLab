@@ -4,7 +4,7 @@
 
 A command-line tool that reads **Zeek** network logs and flags suspicious behavior using five rule-based detectors and an **Isolation Forest** machine-learning model I implemented from scratch. Results are saved as a CSV and as a self-contained HTML report.
 
-Pure Java 17+. No external libraries.
+Pure Java 17+. No runtime dependencies (JUnit 5 is used for tests only).
 
 ## What it detects
 
@@ -24,6 +24,17 @@ Pure Java 17+. No external libraries.
 # or
 mvn package           # produces target/netanomaly.jar
 ```
+
+## Test
+
+```bash
+mvn test
+```
+
+45 JUnit 5 tests cover each detector with synthetic traffic: a real attack pattern that must
+be flagged, plus look-alike normal traffic that must not be (slow scans, jittery browsing,
+reverse DNS lookups, LAN file copies). They also cover the Isolation Forest, the Zeek TSV/gzip
+parser and the config loader. GitHub Actions runs them on Java 17 and 21 for every push.
 
 ## Run
 
@@ -76,6 +87,7 @@ src/main/java/netanomaly/
   ml/IsolationForest.java  from-scratch implementation
   report/ReportWriter.java CSV + HTML report
   util/Net.java          IP classification, entropy, stats helpers
+src/test/java/netanomaly/  JUnit 5 tests, mirroring the layout above
 ```
 
 ## Key concepts
