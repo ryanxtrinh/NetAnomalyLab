@@ -46,6 +46,24 @@ java -jar netanomaly.jar <zeek_log_dir> [--baseline <zeek_log_dir>] [--out out] 
 - `--baseline` points to logs of known-normal traffic. It turns on new-device and upload-spike detection and trains the ML model on clean data.
 - Open `out/report.html` in any browser.
 
+### Quick demo with the sample logs
+
+`sample-logs/` has synthetic Zeek logs (TSV format) for a small 14-workstation office network: one normal day in `baseline/` and one day in `attack/` with known attacks planted in it.
+
+```bash
+./build.sh
+java -jar netanomaly.jar sample-logs/attack --baseline sample-logs/baseline
+```
+
+| Planted activity | Source | Expected alert |
+|---|---|---|
+| Unknown laptop joins the network and scans the file server (ports 1-1024 in ~45s) | `10.20.0.66` | `PORT_SCAN` (High), `NEW_DEVICE` |
+| Malware checking in to a C2 server every ~60s | `10.20.0.23` → `198.51.100.47:443` | `BEACONING` (High) |
+| Data smuggled out in long random DNS TXT lookups | `10.20.0.31` → `sync-telemetry.example` | `DNS_TUNNELING` (High) |
+| ~1.4 GB uploaded to an unfamiliar external server | `10.20.0.18` → `203.0.113.77` | `EXFILTRATION` (High), `UPLOAD_SPIKE` |
+
+All four are caught at High severity. The Isolation Forest also raises some Low-severity anomalies on normal traffic, which is why the rule-based detectors run first and ML findings are treated as leads to review. External addresses use the reserved documentation ranges (192.0.2.0/24, 198.51.100.0/24, 203.0.113.0/24), so none of them point at real hosts.
+
 ## Getting data
 
 ### Option A: public datasets
